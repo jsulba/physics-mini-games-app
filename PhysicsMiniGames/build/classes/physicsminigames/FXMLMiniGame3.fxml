@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="physicsminigames.FXMLMiniGame3Controller">
+   <children>
+      <Button fx:id="quit" layoutX="274.0" layoutY="251.0" mnemonicParsing="false" onAction="#quitAction" text="Quit" />
+      <Label fx:id="title" layoutX="200.0" layoutY="148.0" text="This is game 3">
+         <font>
+            <Font name="Californian FB" size="33.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="physicsminigames.FXMLDocumentController">
+    <children>
+      <VBox fx:id="box" alignment="TOP_CENTER" layoutX="98.0" layoutY="3.0" prefHeight="493.0" prefWidth="315.0" spacing="50.0">
+         <children>
+              <Label fx:id="label" alignment="CENTER" minHeight="16" minWidth="69" prefHeight="98.0" prefWidth="320.0" text="Physics Mini Games" textAlignment="CENTER">
+               <font>
+                  <Font name="Cambria Math" size="22.0" />
+               </font>
+            </Label>
+              <Button fx:id="game1" alignment="CENTER" onAction="#startMiniGame1" prefHeight="25.0" prefWidth="154.0" text="Play &quot;Charge Cannon&quot; " textAlignment="CENTER" />
+            <Button fx:id="game2" mnemonicParsing="false" onAction="#startMiniGame2" prefHeight="25.0" prefWidth="156.0" text="Play Mini Game 2" />
+            <Button fx:id="game3" mnemonicParsing="false" onAction="#startMiniGame3" prefHeight="25.0" prefWidth="157.0" text="Play Mini Game 3" />
+         </children>
+      </VBox>
+    </children>
+</AnchorPane>
