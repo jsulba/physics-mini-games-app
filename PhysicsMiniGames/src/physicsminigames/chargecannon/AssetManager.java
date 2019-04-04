@@ -22,6 +22,7 @@ import javafx.scene.paint.ImagePattern;
  */
 public class AssetManager {
     static private Background backgroundImage = null;
+    private static ImagePattern gameplay = null;
     static private ArrayList<ImagePattern> bullets = new ArrayList<>();
     static private ImagePattern chargeCannonShooting = null;
     static private ImagePattern chargeCannonIdle = null;
@@ -55,6 +56,8 @@ public class AssetManager {
                                                 BackgroundPosition.DEFAULT,
                                                 BackgroundSize.DEFAULT));
         
+        gameplay = new ImagePattern(new Image(fileURL("./assets/charge_cannon/backgrounds/gameplay.png")));
+        
         bullets.add(new ImagePattern(new Image(fileURL("./assets/charge_cannon/sprites/neutra.png"))));
         bullets.add(new ImagePattern(new Image(fileURL("./assets/charge_cannon/sprites/posit.png"))));
         bullets.add(new ImagePattern(new Image(fileURL("./assets/charge_cannon/sprites/tegan.png"))));
@@ -83,6 +86,10 @@ public class AssetManager {
     static public Background getBackgroundImage()
     {
         return backgroundImage;        
+    }
+    
+    static public ImagePattern getGameplayScreenShot(){
+        return gameplay;
     }
     
     static public ImagePattern getChargeCannonIdleImage(){
