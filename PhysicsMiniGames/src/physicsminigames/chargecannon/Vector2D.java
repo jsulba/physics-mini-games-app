@@ -14,7 +14,7 @@ public class Vector2D {
         this.y = y;
     }
 
-    // Accessors and Mutators
+    // Getters and Setters
     public double getX(){ return x; }
     public double getY(){ return y; }
     
@@ -22,7 +22,7 @@ public class Vector2D {
     public void  setX(double value){ x=value; }
     public void  setY(double value){ y=value; }
     
-    // Operations
+    // Operations and Calculations
     public Vector2D add(Vector2D other) {
         return new Vector2D(x + other.x, y + other.y);
     }

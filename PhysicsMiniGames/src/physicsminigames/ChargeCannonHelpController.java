@@ -37,9 +37,8 @@ public class ChargeCannonHelpController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        pane.setPrefSize(700, 600);
-//        instructions.setPrefSize(pane.getPrefWidth(), pane.getPrefHeight()/2);
         
+        // Set content of help window
         screenshot.setImage(AssetManager.getGameplayScreenShot().getImage());
         instructions.setText("How to Play:\n\n"
                 + "1) Objective: Shoot electrically modified bullets into the generator to ultimately charge it up with enough energy.\n"

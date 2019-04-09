@@ -74,7 +74,7 @@ public class CircleGameObject {
         // Update velocity
         Vector2D frameAcceleration = acceleration.mult(dt);  
         velocity = getVelocity().add(frameAcceleration);
-        if(velocity.magnitude() == 0 || position.getX() > 700 || position.getX() < 0){
+        if(velocity.magnitude() == 0 || position.getX() > 900 || position.getX() < 0){
             moving = false;
         }
         else{

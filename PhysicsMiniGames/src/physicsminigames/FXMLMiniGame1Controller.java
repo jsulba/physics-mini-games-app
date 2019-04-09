@@ -25,9 +25,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import physicsminigames.chargecannon.AssetManager;
@@ -54,6 +56,7 @@ public class FXMLMiniGame1Controller implements Initializable {
     private Button nextLevelButton = new Button();
     private Button quitButton = new Button();
     private Button helpButton = new Button();
+    private VBox controls = new VBox();
     
     // Other GUI components
     MediaPlayer soundtrackPlayer = null;
@@ -65,6 +68,7 @@ public class FXMLMiniGame1Controller implements Initializable {
     private Label levelLabel = new Label();
     private Label genLevelLabel = new Label();
     private Label shotsLabel = new Label();
+    private Label velocityLabel = new Label();
     
     // Shooting related variables
     private Button fireButton = new Button();
@@ -100,7 +104,7 @@ public class FXMLMiniGame1Controller implements Initializable {
     private double lastFrameTime = 0.0;
     private double currentKineticEnergy = 0.0;
     private int currentLevel = 1;
-    private double[] levelRequirements = {700, 1000, 1200};
+    private double[] levelRequirements = {1700, 3300, 3800};
     ArrayList<GridRegion> gridPoints = new ArrayList<>();
     private final int AMMO = 12;
     private int shotsRemaining = AMMO;
@@ -120,18 +124,14 @@ public class FXMLMiniGame1Controller implements Initializable {
         // Level Number Label
         levelLabel.setText("Level " + currentLevel);
         if(currentLevel == 1){
-            levelLabel.setLayoutX(pane.getPrefWidth() - 250);
-            levelLabel.setLayoutY(pane.getPrefHeight() - 495);
+            levelLabel.setLayoutX(10);
+            levelLabel.setLayoutY(5);
+            levelLabel.setFont(Font.font(14));
             addToPane(levelLabel);
         }
         
         // Generator Charge Level
-        genLevelLabel.setText("Generator Charge: 0/" + levelRequirements[currentLevel-1]);
-        if(currentLevel == 1){
-            genLevelLabel.setLayoutX(pane.getPrefWidth() - 170);
-            genLevelLabel.setLayoutY(pane.getPrefHeight() - 495);
-            addToPane(genLevelLabel);
-        }
+        genLevelLabel.setText("Generator Charge Lvl: 0.00/" + levelRequirements[currentLevel-1]);
         
         // Reset Sliders
         angleSlider.setValue(0.0);
@@ -157,8 +157,8 @@ public class FXMLMiniGame1Controller implements Initializable {
             addToPane(icon);
             
             // Creating vector field grid 
-            for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 7; j++) {
+            for (int i = 0; i < 6; i++) {
+                for (int j = 0; j < 9; j++) {
                     GridRegion block = new GridRegion(0 + j * 100, 0 + i * 100, 100);
                     block.setElectricFieldVector(sourceCharge3, chargePosition2, block.getCenter());  
                     gridPoints.add(block);
@@ -175,17 +175,17 @@ public class FXMLMiniGame1Controller implements Initializable {
             addToPane(chargeCannon.getRectangle());
             
             // Generator position
-            generator = new Generator(new Vector2D(650, 150));
+            generator = new Generator(new Vector2D(800, 150));
             rectObjectsList.add(generator);
             addToPane(generator.getRectangle());
         
             // Ground Wall 
-            GroundWall gw = new GroundWall(new Vector2D(250, 170)); 
+            GroundWall gw = new GroundWall(new Vector2D(300, 200)); 
             rectObjectsList.add(gw);
             addToPane(gw.getRectangle());
         
             // Ground Gate
-            GroundGate gg = new GroundGate(new Vector2D(400, 300));
+            GroundGate gg = new GroundGate(new Vector2D(500, 300));
             rectObjectsList.add(gg);
             addToPane(gg.getRectangle());
         }
@@ -213,8 +213,8 @@ public class FXMLMiniGame1Controller implements Initializable {
             }
 
             // Creating vector field grid 
-            for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 7; j++) {
+            for (int i = 0; i < 6; i++) {
+                for (int j = 0; j < 9; j++) {
                     GridRegion block = new GridRegion(0 + j * 100, 0 + i * 100, 100);
                     block.setNetElectricFieldVector(sourceChargesLevel2, sourcePositionsLevel2, block.getCenter());  
                     gridPoints.add(block);
@@ -231,17 +231,17 @@ public class FXMLMiniGame1Controller implements Initializable {
             addToPane(chargeCannon.getRectangle());
         
             // Generator position
-            generator = new Generator(new Vector2D(650, 400));
+            generator = new Generator(new Vector2D(800, 500));
             rectObjectsList.add(generator);
             addToPane(generator.getRectangle());
 
             // Ground Wall 
-            GroundWall gw = new GroundWall(new Vector2D(400, 320));
+            GroundWall gw = new GroundWall(new Vector2D(600, 420));
             rectObjectsList.add(gw);
             addToPane(gw.getRectangle());
 
             // Ground Gate
-            GroundGate gg = new GroundGate(new Vector2D(250, 150));
+            GroundGate gg = new GroundGate(new Vector2D(450, 250));
             rectObjectsList.add(gg);
             addToPane(gg.getRectangle());
             
@@ -275,8 +275,8 @@ public class FXMLMiniGame1Controller implements Initializable {
             }
             
             // Creating vector field grid 
-            for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 7; j++) {
+            for (int i = 0; i < 6; i++) {
+                for (int j = 0; j < 9; j++) {
                     GridRegion block = new GridRegion(0 + j * 100, 0 + i * 100, 100);
                     block.setNetElectricFieldVector(sourceChargesLevel3, sourcePositionsLevel3, block.getCenter());  
                     gridPoints.add(block);
@@ -293,20 +293,20 @@ public class FXMLMiniGame1Controller implements Initializable {
             addToPane(chargeCannon.getRectangle());
         
             // Generator position
-            generator = new Generator(new Vector2D(650, 250));
+            generator = new Generator(new Vector2D(800, 350));
             rectObjectsList.add(generator);
             addToPane(generator.getRectangle());
 
             // Ground Wall 
-            GroundWall gw = new GroundWall(new Vector2D(150, 220));
+            GroundWall gw = new GroundWall(new Vector2D(350, 320));
             rectObjectsList.add(gw);
             addToPane(gw.getRectangle());
 
             // Ground Gate
-            GroundGate gg1 = new GroundGate(new Vector2D(450, 120));
+            GroundGate gg1 = new GroundGate(new Vector2D(650, 320));
             rectObjectsList.add(gg1);
             addToPane(gg1.getRectangle());
-            GroundGate gg2 = new GroundGate(new Vector2D(350, 350));
+            GroundGate gg2 = new GroundGate(new Vector2D(550, 450));
             rectObjectsList.add(gg2);
             addToPane(gg2.getRectangle());
             
@@ -334,45 +334,53 @@ public class FXMLMiniGame1Controller implements Initializable {
         soundtrackPlayer.play();
 
         // Window size and Background
-        pane.setPrefSize(700, 500);
+        pane.setPrefSize(900, 600);
         pane.setBackground(AssetManager.getBackgroundImage());
 
         // Time variables
         lastFrameTime = 0.0f;
         long initialTime = System.nanoTime();
 
+        // Controls
+        controls.setLayoutX(900);
+        controls.setLayoutY(0);
+        controls.setPrefSize(200, 600);
+        
+        addToPane(controls);
+        
+        
         // Slider Controls
         // Charge Slider
         chargeSlider.setMajorTickUnit(1.0);
         chargeSlider.setMax(10.0);
         chargeSlider.setMin(-10.0);
         chargeSlider.setValue(0.0);
-        chargeSlider.setLayoutX(pane.getPrefWidth() - 250);
-        chargeSlider.setLayoutY(pane.getPrefHeight() - 30);
+//        chargeSlider.setLayoutX(controls.getPrefWidth()/2 - chargeSlider.getPrefWidth()/2);
+//        chargeSlider.setLayoutY(controls.getPrefHeight() - 30);
 
         // Speed Slider
         speedSlider.setMajorTickUnit(30.0);
         speedSlider.setMax(50.0);
         speedSlider.setMin(0.0);
         speedSlider.setValue(25.0);
-        speedSlider.setLayoutX(pane.getPrefWidth() - 450);
-        speedSlider.setLayoutY(pane.getPrefHeight() - 30);
+//        speedSlider.setLayoutX(controls.getPrefWidth()/2 - speedSlider.getPrefWidth()/2);
+//        speedSlider.setLayoutY(controls.getPrefHeight() - 60);
 
         // Angle Slider
         angleSlider.setMajorTickUnit(10.0);
         angleSlider.setMax(Math.PI / 2);
         angleSlider.setMin(-Math.PI / 2);
         angleSlider.setValue(0.0);
-        angleSlider.setLayoutX(pane.getPrefWidth() - 650);
-        angleSlider.setLayoutY(pane.getPrefHeight() - 30);
+//        angleSlider.setLayoutX(controls.getPrefWidth()/2 - angleSlider.getPrefWidth()/2);
+//        angleSlider.setLayoutY(controls.getPrefHeight() - 90);
         
         // Mass Slider
         massSlider.setMajorTickUnit(1.0);
         massSlider.setMax(5.0);
         massSlider.setMin(1.0);
         massSlider.setValue(0.5);
-        massSlider.setLayoutX(pane.getPrefWidth() - 650);
-        massSlider.setLayoutY(pane.getPrefHeight() - 480);
+//        massSlider.setLayoutX(controls.getPrefWidth()/2 - massSlider.getPrefWidth()/2);
+//        massSlider.setLayoutY(controls.getPrefHeight() - 120);
 
         addToPane(chargeSlider);
         addToPane(angleSlider);
@@ -381,8 +389,8 @@ public class FXMLMiniGame1Controller implements Initializable {
 
         // Fire Button Initialize & Action
         fireButton.setText("Fire!");
-        fireButton.setLayoutX(pane.getPrefWidth() - 75);
-        fireButton.setLayoutY(pane.getPrefHeight() - 30);
+        fireButton.setLayoutX(controls.getPrefWidth()/2 - fireButton.getPrefWidth()/2);
+        fireButton.setLayoutY(controls.getPrefHeight() - 5);
         fireButton.setPrefWidth(50.0);
         fireButton.setPrefHeight(10);
         fireButton.setVisible(true);
@@ -418,8 +426,8 @@ public class FXMLMiniGame1Controller implements Initializable {
         quitButton.setText("Quit");
         quitButton.setLayoutX(pane.getPrefWidth() - 75);
         quitButton.setLayoutY(pane.getPrefHeight() - 475);
-        quitButton.setPrefWidth(50.0);
-        quitButton.setPrefHeight(10);
+//        quitButton.setPrefWidth(50.0);
+//        quitButton.setPrefHeight(10);
         quitButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -431,8 +439,8 @@ public class FXMLMiniGame1Controller implements Initializable {
         
         // Next Level Button Initialize & Action
         nextLevelButton.setText("Next Level");
-        nextLevelButton.setLayoutX(pane.getPrefWidth()/2 - 40);
-        nextLevelButton.setLayoutY(pane.getPrefHeight()/2);
+//        nextLevelButton.setLayoutX(pane.getPrefWidth()/2 - 40);
+//        nextLevelButton.setLayoutY(pane.getPrefHeight()/2);
         nextLevelButton.setVisible(false);
         nextLevelButton.setDisable(true);
         nextLevelButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -457,6 +465,7 @@ public class FXMLMiniGame1Controller implements Initializable {
                 messageLabel.setText("");
                 shotsRemaining = AMMO;
                 shotsLabel.setText("Bullets: " + shotsRemaining);
+                fireButton.setDisable(false);
                 
                 // Setup next level
                 ++currentLevel;
@@ -469,8 +478,8 @@ public class FXMLMiniGame1Controller implements Initializable {
         helpButton.setText("Help");
         helpButton.setLayoutX(pane.getPrefWidth() - 75);
         helpButton.setLayoutY(pane.getPrefHeight() - 450);
-        helpButton.setPrefWidth(50.0);
-        helpButton.setPrefHeight(10);
+//        helpButton.setPrefWidth(50.0);
+//        helpButton.setPrefHeight(10);
         helpButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -539,19 +548,60 @@ public class FXMLMiniGame1Controller implements Initializable {
         });
         addToPane(chargeLabel);
         
+        // Side Panel
+        // Side Panel Inputs
+        // Title
+        Label title = new Label("Inputs");
+        title.setFont(Font.font(24));
+        addToPane(title);
+        controls.getChildren().add(title);
+        // Labels and Sliders
+        controls.getChildren().add(chargeLabel);
+        controls.getChildren().add(chargeSlider);
+        controls.getChildren().add(speedLabel);
+        controls.getChildren().add(speedSlider);
+        controls.getChildren().add(angleLabel);
+        controls.getChildren().add(angleSlider);
+        controls.getChildren().add(massLabel);
+        controls.getChildren().add(massSlider);
+        controls.getChildren().add(fireButton);
+        
+        // Side Panel Outputs
+        // Title
+        Label outputs = new Label("Outputs");
+        outputs.setFont(Font.font(24));
+        addToPane(outputs);
+        controls.getChildren().add(outputs);
+        
+        // Output Information
+        addToPane(genLevelLabel);
+        controls.getChildren().add(genLevelLabel);
+        velocityLabel.setText("Velocity: X: 0.00, Y: 0.00");
+        addToPane(velocityLabel);
+        controls.getChildren().add(velocityLabel);
+        
+        // Message Label
+        messageLabel.setText("Choose your inputs and fire!");
+        addToPane(messageLabel);
+        controls.getChildren().add(messageLabel);
+        
+        // Other buttons
+        controls.getChildren().add(helpButton);
+        controls.getChildren().add(quitButton);
+        controls.getChildren().add(nextLevelButton);
+       
         // Shots Remaining
         shotsLabel.setText("Bullets: " + shotsRemaining);
-        shotsLabel.setLayoutX(pane.getPrefWidth() - 350);
-        shotsLabel.setLayoutY(pane.getPrefHeight() - 495);
+        shotsLabel.setLayoutX(70);
+        shotsLabel.setLayoutY(5);
+        shotsLabel.setFont(Font.font(14));
         addToPane(shotsLabel);
+        
+        controls.setSpacing(8);
         
         // Level Setup
         setUpLevel(currentLevel);
-        
-        // Message Label
-        messageLabel.setLayoutX(pane.getPrefWidth()/2 - 37);
-        messageLabel.setLayoutY(pane.getPrefHeight()/2 - 20);
-        addToPane(messageLabel);
+
         
         // Animation process (game loop)
         new AnimationTimer() {
@@ -579,6 +629,7 @@ public class FXMLMiniGame1Controller implements Initializable {
                     if(currentLevel < 3){
                         nextLevelButton.setVisible(true);
                         nextLevelButton.setDisable(false);
+                        fireButton.setDisable(true);
                         messageLabel.setText("WELL DONE.");
                     }
                     else{
@@ -605,7 +656,6 @@ public class FXMLMiniGame1Controller implements Initializable {
                         messageLabel.setText("YOU LOSE! PRESS QUIT TO RETURN TO MAIN MENU.");
                     }
                 }
-                // small detail - if the level is beat on the last bullet, it will still do the lose process but the next level button appears and the user can continue.
 
                 // Update all Circle objects
                 for (CircleGameObject c : circleObjectsList) {
@@ -648,13 +698,13 @@ public class FXMLMiniGame1Controller implements Initializable {
                         }
                         
                         // Depending on bullet position, update with the right parameters
-                        for (GridRegion gr : gridPoints) {  // can be made more efficient using nested grids. 
+                        for (GridRegion gr : gridPoints) {  
                             Vector2D corner = gr.getCornerPosition();
                             if (!((Bullet) c).isDestroyed() && bulletPosition.getX() >= corner.getX() && bulletPosition.getX() < corner.getX() + gr.getSideLength() && bulletPosition.getY() >= corner.getY() && bulletPosition.getY() < corner.getY() + gr.getSideLength()) {
                                 Vector2D eField = gr.getElectricFieldVector(); 
                                 c.update(frameDeltaTime,((Bullet) c).getCharge(), eField, ((Bullet) c).getMass());
                                 // Test
-//                                messageLabel.setText("Velocity: x: "+ String.format("%.2f", c.getVelocity().getX()) + "y: " + String.format("%.2f", c.getVelocity().getY()));
+                                velocityLabel.setText("Velocity: X: "+ String.format("%.2f", c.getVelocity().getX()) + ", Y: " + String.format("%.2f", c.getVelocity().getY()));
                                 break;
                             } 
                             else {
