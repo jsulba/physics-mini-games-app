@@ -66,8 +66,11 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void startMiniGame2(ActionEvent event) throws IOException {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("FXMLMiniGame2.fxml"));
-        rootPane.getChildren().setAll(pane);
+        Parent newRoot = FXMLLoader.load(getClass().getResource("FXMLMiniGame2.fxml"));
+        Stage stage = new Stage();
+        stage.setTitle("Projectile Shooter");
+        stage.setScene(new Scene(newRoot));
+        stage.show();
     }
     
     @FXML
