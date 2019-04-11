@@ -22,7 +22,7 @@ public class HelpWindowController implements Initializable {
     /**
      * Initializes the controller class.
      */
-     @FXML
+    @FXML
     private ImageView imageViewHelpTop;
     
     @FXML
@@ -33,7 +33,10 @@ public class HelpWindowController implements Initializable {
     
         AssetManager.preloadAllAssets();
         
+        //imageViewHelpTop = new ImageView();
         imageViewHelpTop.setImage(AssetManager.getImageHelpTop());           
+        
+        //imageViewHelpBottom = new ImageView();        
         imageViewHelpBottom.setImage(AssetManager.getImageHelpBottom());
 
     }    

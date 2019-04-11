@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.animation.AnimationTimer;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,7 +25,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -33,18 +34,17 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import physicsminigames.projectileshooter.*;
+
 /**
- * FXML Controller class
  *
  * @author cstuser
  */
 public class FXMLMiniGame2Controller implements Initializable {
-    
-   private double lastFrameTime = 0.0;
+
+    private double lastFrameTime = 0.0;
 
     @FXML
     private AnchorPane pane;
-    
 
     @FXML
     private Label coordinates;
@@ -54,41 +54,39 @@ public class FXMLMiniGame2Controller implements Initializable {
 
     @FXML
     private ImageView character;
-    
-    
 
     @FXML
     private RadioButton radioButtonFireGun;
     @FXML
     private Label labelFireGun;
+    @FXML
+    public ImageView imageViewFireGun = new ImageView();
     
     @FXML
     private RadioButton radioButtonIceGun;
     @FXML
     private Label labelIceGun;
     @FXML
-    private ImageView iceGunIcon;
+    public ImageView imageViewIceGun = new ImageView();
     
     @FXML
     private RadioButton radioButtonAGGun;
     @FXML
-    private Label labelAntiGravityGun;    
+    private Label labelAntiGravityGun;
     @FXML
-    private ImageView fireGunIcon;
+    public  ImageView imageViewAntiGravityGun = new ImageView();
     
     @FXML
     private RadioButton radioButtonPortalGun;
     @FXML
     private Label labelPortalGun;
     @FXML
-    private ImageView portalGunIcon;
+    public ImageView imageViewPortalGun = new ImageView();
 
     @FXML
     private Button buttonClosePortals;
     @FXML
     private Button buttonCloseAntiGravity;
-    @FXML
-    private ImageView antiGravityGunIcon;
 
     @FXML
     private Button nextLevelButton1;
@@ -237,6 +235,8 @@ public class FXMLMiniGame2Controller implements Initializable {
         pane.getChildren().remove(node);
     }
     
+    
+    
     /*
     @FXML
     public void buttonHelpClicked(MouseEvent event){
@@ -260,7 +260,9 @@ public class FXMLMiniGame2Controller implements Initializable {
         buttonCloseHelp.setDisable(true);
     }
     */
-
+    
+   
+    
     //This method will point the gun at the mouse when it is moved
     @FXML
     public void mouseMoved(MouseEvent event) {
@@ -277,12 +279,11 @@ public class FXMLMiniGame2Controller implements Initializable {
     public void buttonHelp(MouseEvent event)
     {
         try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("HelpWindow.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-           // stage.wait();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("HelpWindow.fxml"));
+        Parent root1 = (Parent) fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root1));
+        stage.show();
         }
         catch(Exception e)
         {
@@ -720,6 +721,9 @@ public class FXMLMiniGame2Controller implements Initializable {
                 arrListProjectiles.remove(proj);            
             */  
             
+            AudioClip tempBurning = AssetManager.getHitFire();
+            tempBurning.play();
+            
             e.getRectangle().setFill(AssetManager.getEnemyBurning());
             e.setVelocity(new Vector(0, 0));
             
@@ -730,6 +734,9 @@ public class FXMLMiniGame2Controller implements Initializable {
         if (proj.getType().equalsIgnoreCase("ice")) {
             removeFromPane(proj.getCircle());
             arrListProjectiles.remove(proj);
+            
+            AudioClip tempFreeze = AssetManager.getHitIce();
+            tempFreeze.play();
 
             // "freezes" the enemy
             e.setVelocity(new Vector(0, 0));
@@ -811,19 +818,19 @@ public class FXMLMiniGame2Controller implements Initializable {
 
         //----------ENEMIES-------------
         //"I"
-        //placeEnemy(new Vector(100, 205));
+        placeEnemy(new Vector(100, 205), "");
 
         //"II"
         placeEnemy(new Vector(550, 305), "");
 
         //"III"
-        //placeEnemy(new Vector(1400, 5));
+        placeEnemy(new Vector(1400, 5), "");
 
         //"IV"
-        //placeEnemy(new Vector(1250, 455));
+        placeEnemy(new Vector(1250, 455), "");
 
         //"V"
-        //placeEnemy(new Vector(1300, 750));
+        placeEnemy(new Vector(1300, 750), "");
     }
 
     public void loadLevelTwo() {
@@ -1106,26 +1113,34 @@ public class FXMLMiniGame2Controller implements Initializable {
         long initialTime = System.nanoTime();
 
         AssetManager.preloadAllAssets();
-              
-        pane.setBackground(AssetManager.getBackground());
+
+        pane.setBackground(AssetManager.getBackground());      
+        
         
         hideCongratsScreen();
 
         ToggleGroup group = new ToggleGroup();
         radioButtonFireGun.setToggleGroup(group);
-        fireGunIcon.setImage(AssetManager.getGunFire_Img());
         
         radioButtonIceGun.setToggleGroup(group);
-        iceGunIcon.setImage(AssetManager.getGunIce_Img());
+        imageViewIceGun.setImage(AssetManager.getGunIce_Img());
         
         radioButtonAGGun.setToggleGroup(group);
-        antiGravityGunIcon.setImage(AssetManager.getGunAntiGravity_Img());
+        imageViewAntiGravityGun.setImage(AssetManager.getGunAntiGravity_Img());        
         
         radioButtonPortalGun.setToggleGroup(group);
-        portalGunIcon.setImage(AssetManager.getGunPortalIn_Img());
+        imageViewPortalGun.setImage(AssetManager.getGunPortalIn_Img());
 
         buttonCloseAntiGravity.setDisable(true);
         buttonClosePortals.setDisable(true);
+        
+        buttonMainMenu.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ((Stage)pane.getScene().getWindow()).close();
+            }
+        });
+       
         
         /*
         //Hiding the button in the help menu
@@ -1584,5 +1599,4 @@ public class FXMLMiniGame2Controller implements Initializable {
 
     }
 
-    
 }

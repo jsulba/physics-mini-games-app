@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,5 +9,84 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="physicsminigames.FXMLMiniGame2Controller" />
+<AnchorPane id="AnchorPane" fx:id="pane" onMouseClicked="#mouseClicked" onMouseMoved="#mouseMoved" prefHeight="800.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="physicsminigames.FXMLMiniGame2Controller">
+   <children>
+      <RadioButton fx:id="radioButtonIceGun" layoutX="51.0" layoutY="43.0" mnemonicParsing="false" />
+      <ImageView fx:id="character" fitHeight="101.0" fitWidth="105.0" layoutX="27.0" layoutY="699.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="coordinates" layoutX="360.0" layoutY="131.0" prefHeight="48.0" prefWidth="578.0">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="radioButtonFireGun" layoutX="138.0" layoutY="43.0" mnemonicParsing="false" />
+      <RadioButton fx:id="radioButtonAGGun" layoutX="255.0" layoutY="43.0" mnemonicParsing="false" />
+      <Label fx:id="labelIceGun" layoutX="39.0" layoutY="26.0" text="Ice Gun">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelFireGun" layoutX="124.0" layoutY="26.0" text="Fire Gun">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelAntiGravityGun" layoutX="220.0" layoutY="26.0" text="Anti-Gravity Gun">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="radioButtonPortalGun" layoutX="372.0" layoutY="44.0" mnemonicParsing="false" />
+      <Label fx:id="labelPortalGun" layoutX="348.0" layoutY="27.0" text="Portal Gun">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font>
+      </Label>
+      <Button fx:id="buttonCloseAntiGravity" layoutX="527.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#closeAntiGravity" prefHeight="25.0" prefWidth="122.0" text="Close Anti-Gravity">
+         <textFill>
+            <RadialGradient centerX="1.0" centerY="0.8047619047619047" cycleMethod="REPEAT" focusAngle="180.0" focusDistance="0.8604651162790697" radius="0.5232558139534884">
+               <stops>
+                  <Stop color="#fff000" />
+                  <Stop color="BLACK" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </Button>
+      <Button fx:id="buttonClosePortals" layoutX="658.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#closePortal" prefHeight="25.0" prefWidth="122.0" text="Close Portals">
+         <textFill>
+            <LinearGradient cycleMethod="REPEAT" endX="1.0">
+               <stops>
+                  <Stop color="#00ff09" />
+                  <Stop color="#ff00d9" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Button>
+      <Label fx:id="congratsLabel" layoutX="526.0" layoutY="231.0" text="GOOD JOB!">
+         <font>
+            <Font name="Forte" size="89.0" />
+         </font>
+      </Label>
+      <Button fx:id="nextLevelButton2" layoutX="658.0" layoutY="358.0" mnemonicParsing="false" onMouseClicked="#nextLevelButton2Clicked" prefHeight="58.0" prefWidth="185.0" text="Level 2" />
+      <Button fx:id="nextLevelButton3" layoutX="882.0" layoutY="358.0" mnemonicParsing="false" onMouseClicked="#nextLevelButton3Clicked" prefHeight="58.0" prefWidth="185.0" text="Level 3" />
+      <Button fx:id="nextLevelButton1" layoutX="434.0" layoutY="358.0" mnemonicParsing="false" onMouseClicked="#nextLevelButton1Clicked" prefHeight="58.0" prefWidth="185.0" text="Level 1" />
+      <ImageView fitHeight="27.0" fitWidth="85.0" layoutX="106.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fitHeight="27.0" fitWidth="85.0" layoutX="14.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fitHeight="27.0" fitWidth="85.0" layoutX="225.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fitHeight="27.0" fitWidth="85.0" layoutX="335.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="buttonHelp" layoutX="791.0" layoutY="19.0" mnemonicParsing="false" onMouseClicked="#buttonHelp" prefHeight="25.0" prefWidth="105.0" text="Help">
+         <font>
+            <Font name="Arial Black" size="15.0" />
+         </font>
+      </Button>
+      <ImageView fx:id="gunImage" depthTest="DISABLE" fitHeight="39.0" fitWidth="122.0" layoutX="26.0" layoutY="750.0" nodeOrientation="INHERIT" onMouseMoved="#mouseMoved" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../ProjectileShooterApril10WithLevel3/assets/Guns/gunFire.gif" />
+         </image>
+      </ImageView>
+      <Button fx:id="buttonMainMenu" layoutX="904.0" layoutY="19.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="105.0" text="Quit">
+         <font>
+            <Font name="Arial Black" size="15.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
