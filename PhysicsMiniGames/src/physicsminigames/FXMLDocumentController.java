@@ -56,8 +56,12 @@ public class FXMLDocumentController implements Initializable {
         stage.setScene(new Scene(newRoot));
         stage.show();
         
-        // Hide main menu
-        // rootPane.getScene().getWindow().hide();
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>(){
+            @Override
+            public void handle(WindowEvent event) {
+                FXMLMiniGame1Controller.getMediaPlayer().stop();
+            }
+        });
     }
     
     @FXML

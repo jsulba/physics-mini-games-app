@@ -59,7 +59,7 @@ public class FXMLMiniGame1Controller implements Initializable {
     private VBox controls = new VBox();
     
     // Other GUI components
-    MediaPlayer soundtrackPlayer = null;
+    private static MediaPlayer soundtrackPlayer = null;
     private Label messageLabel = new Label();
     private Label speedLabel = new Label();
     private Label chargeLabel = new Label();
@@ -90,9 +90,9 @@ public class FXMLMiniGame1Controller implements Initializable {
     private final double sourceCharge2 = -3.0;
     private final double sourceCharge3 = 7.0;
     private final double sourceCharge4 = -6.0;
-    private final Vector2D chargePosition1 = new Vector2D(100, 450); 
+    private final Vector2D chargePosition1 = new Vector2D(100, 550); 
     private final Vector2D chargePosition2 = new Vector2D(400, 50);
-    private final Vector2D chargePosition3 = new Vector2D(450, 450); 
+    private final Vector2D chargePosition3 = new Vector2D(450, 550); 
     private final Vector2D chargePosition4 = new Vector2D(200, 50);
     private ArrayList<Double> sourceChargesLevel2 = new ArrayList<>();
     private ArrayList<Double> sourceChargesLevel3 = new ArrayList<>();
@@ -426,8 +426,6 @@ public class FXMLMiniGame1Controller implements Initializable {
         quitButton.setText("Quit");
         quitButton.setLayoutX(pane.getPrefWidth() - 75);
         quitButton.setLayoutY(pane.getPrefHeight() - 475);
-//        quitButton.setPrefWidth(50.0);
-//        quitButton.setPrefHeight(10);
         quitButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -439,8 +437,6 @@ public class FXMLMiniGame1Controller implements Initializable {
         
         // Next Level Button Initialize & Action
         nextLevelButton.setText("Next Level");
-//        nextLevelButton.setLayoutX(pane.getPrefWidth()/2 - 40);
-//        nextLevelButton.setLayoutY(pane.getPrefHeight()/2);
         nextLevelButton.setVisible(false);
         nextLevelButton.setDisable(true);
         nextLevelButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -462,7 +458,7 @@ public class FXMLMiniGame1Controller implements Initializable {
                 iconsList.clear();
                 rectObjectsList.clear();
                 circleObjectsList.clear();
-                messageLabel.setText("");
+                messageLabel.setText("Choose your inputs and fire!");
                 shotsRemaining = AMMO;
                 shotsLabel.setText("Bullets: " + shotsRemaining);
                 fireButton.setDisable(false);
@@ -478,8 +474,6 @@ public class FXMLMiniGame1Controller implements Initializable {
         helpButton.setText("Help");
         helpButton.setLayoutX(pane.getPrefWidth() - 75);
         helpButton.setLayoutY(pane.getPrefHeight() - 450);
-//        helpButton.setPrefWidth(50.0);
-//        helpButton.setPrefHeight(10);
         helpButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -582,6 +576,7 @@ public class FXMLMiniGame1Controller implements Initializable {
         
         // Message Label
         messageLabel.setText("Choose your inputs and fire!");
+        messageLabel.setWrapText(true);
         addToPane(messageLabel);
         controls.getChildren().add(messageLabel);
         
@@ -630,12 +625,12 @@ public class FXMLMiniGame1Controller implements Initializable {
                         nextLevelButton.setVisible(true);
                         nextLevelButton.setDisable(false);
                         fireButton.setDisable(true);
-                        messageLabel.setText("WELL DONE.");
+                        messageLabel.setText("WELL DONE! Press Next Level.");
                     }
                     else{
                         nextLevelButton.setVisible(true);
                         fireButton.setDisable(true);
-                        messageLabel.setText("YOU WIN. PRESS QUIT.");
+                        messageLabel.setText("YOU WIN! PRESS QUIT.");
                     }
                 }
                 
@@ -667,7 +662,7 @@ public class FXMLMiniGame1Controller implements Initializable {
                         for(RectangleGameObject rgo: rectObjectsList){
                             //Vector2D directional = new Vector2D(rgo.getCenter().getX()-bulletPosition.getX(), rgo.getCenter().getY()-bulletPosition.getY());
                             Vector2D rectCorner = rgo.getPosition();
-                            if(!(rgo instanceof Cannon) && bulletPosition.getX()+c.getRadius() > rectCorner.getX() && bulletPosition.getX() < rectCorner.getX() + rgo.getWidth() && bulletPosition.getY() > rectCorner.getY() && bulletPosition.getY() < rectCorner.getY() + rgo.getHeight()){
+                            if(!(rgo instanceof Cannon) && bulletPosition.getX() > rectCorner.getX() && bulletPosition.getX() < rectCorner.getX() + rgo.getWidth() && bulletPosition.getY() > rectCorner.getY() && bulletPosition.getY() < rectCorner.getY() + rgo.getHeight()){
                                 if(rgo instanceof GroundWall){
                                     if(!((Bullet) c).isDestroyed()){
                                         AudioClip fizzle = AssetManager.getGroundWallSound();
@@ -718,4 +713,7 @@ public class FXMLMiniGame1Controller implements Initializable {
         }.start();
     }
     
+    public static MediaPlayer getMediaPlayer(){
+        return soundtrackPlayer;
+    }
 }
