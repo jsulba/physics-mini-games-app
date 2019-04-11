@@ -25,7 +25,7 @@ public class PhysicsMiniGames extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         Scene scene = new Scene(root);
-        
+       
         stage.setScene(scene);
         stage.show();
         
@@ -34,7 +34,6 @@ public class PhysicsMiniGames extends Application {
             public void handle(WindowEvent event) {
                 Platform.exit();
             }
-            
         });
     }
 

@@ -16,8 +16,8 @@
                </font>
             </Label>
               <Button fx:id="game1" alignment="CENTER" onAction="#startMiniGame1" prefHeight="25.0" prefWidth="154.0" text="Play &quot;Charge Cannon&quot; " textAlignment="CENTER" />
-            <Button fx:id="game2" mnemonicParsing="false" onAction="#startMiniGame2" prefHeight="25.0" prefWidth="156.0" text="Play Mini Game 2" />
-            <Button fx:id="game3" mnemonicParsing="false" onAction="#startMiniGame3" prefHeight="25.0" prefWidth="157.0" text="Play Mini Game 3" />
+            <Button fx:id="game2" mnemonicParsing="false" onAction="#startMiniGame2" prefHeight="25.0" prefWidth="156.0" text="Play &quot;Projectile Shooter&quot; " />
+            <Button fx:id="game3" mnemonicParsing="false" onAction="#startMiniGame3" prefHeight="25.0" prefWidth="157.0" text="Play &quot;Mirrors of Life&quot; " />
          </children>
       </VBox>
     </children>

@@ -345,7 +345,6 @@ public class FXMLMiniGame1Controller implements Initializable {
         controls.setLayoutX(900);
         controls.setLayoutY(0);
         controls.setPrefSize(200, 600);
-        
         addToPane(controls);
         
         
@@ -355,32 +354,24 @@ public class FXMLMiniGame1Controller implements Initializable {
         chargeSlider.setMax(10.0);
         chargeSlider.setMin(-10.0);
         chargeSlider.setValue(0.0);
-//        chargeSlider.setLayoutX(controls.getPrefWidth()/2 - chargeSlider.getPrefWidth()/2);
-//        chargeSlider.setLayoutY(controls.getPrefHeight() - 30);
 
         // Speed Slider
         speedSlider.setMajorTickUnit(30.0);
         speedSlider.setMax(50.0);
         speedSlider.setMin(0.0);
         speedSlider.setValue(25.0);
-//        speedSlider.setLayoutX(controls.getPrefWidth()/2 - speedSlider.getPrefWidth()/2);
-//        speedSlider.setLayoutY(controls.getPrefHeight() - 60);
 
         // Angle Slider
         angleSlider.setMajorTickUnit(10.0);
         angleSlider.setMax(Math.PI / 2);
         angleSlider.setMin(-Math.PI / 2);
         angleSlider.setValue(0.0);
-//        angleSlider.setLayoutX(controls.getPrefWidth()/2 - angleSlider.getPrefWidth()/2);
-//        angleSlider.setLayoutY(controls.getPrefHeight() - 90);
         
         // Mass Slider
         massSlider.setMajorTickUnit(1.0);
         massSlider.setMax(5.0);
         massSlider.setMin(1.0);
         massSlider.setValue(0.5);
-//        massSlider.setLayoutX(controls.getPrefWidth()/2 - massSlider.getPrefWidth()/2);
-//        massSlider.setLayoutY(controls.getPrefHeight() - 120);
 
         addToPane(chargeSlider);
         addToPane(angleSlider);
@@ -398,15 +389,18 @@ public class FXMLMiniGame1Controller implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 if(shotsRemaining > 0){
+                    
                     // Change shots remaining
                     --shotsRemaining;
                     shotsLabel.setText("Bullets: " + shotsRemaining);
-                
+                    
+                    // Animate Cannon
                     chargeCannon.setFiringImage();
                     AudioClip fireSound = AssetManager.getCannonShotSound();
                     fireSound.play();
                     countShotTime = true;
-
+                    
+                    // Calculate initial values for bullet based on inputs
                     initialSpeed = speedSlider.getValue();
                     firingAngle = -angleSlider.getValue();
                     Vector2D initialPosition = new Vector2D(34.0, pane.getPrefHeight() / 2);
@@ -542,7 +536,9 @@ public class FXMLMiniGame1Controller implements Initializable {
         });
         addToPane(chargeLabel);
         
-        // Side Panel
+        
+        // Side Panel Controls
+        
         // Side Panel Inputs
         // Title
         Label title = new Label("Inputs");
@@ -576,6 +572,7 @@ public class FXMLMiniGame1Controller implements Initializable {
         
         // Message Label
         messageLabel.setText("Choose your inputs and fire!");
+        messageLabel.setFont(Font.font("Consolas"));
         messageLabel.setWrapText(true);
         addToPane(messageLabel);
         controls.getChildren().add(messageLabel);
