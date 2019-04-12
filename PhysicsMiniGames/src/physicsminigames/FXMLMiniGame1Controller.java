@@ -453,6 +453,7 @@ public class FXMLMiniGame1Controller implements Initializable {
                 rectObjectsList.clear();
                 circleObjectsList.clear();
                 messageLabel.setText("Choose your inputs and fire!");
+                velocityLabel.setText("Velocity: X: 0.00, Y: 0.00");
                 shotsRemaining = AMMO;
                 shotsLabel.setText("Bullets: " + shotsRemaining);
                 fireButton.setDisable(false);

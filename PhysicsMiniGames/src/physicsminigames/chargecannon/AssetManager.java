@@ -74,7 +74,7 @@ public class AssetManager {
    
         
         // Preload all music tracks
-        backgroundMusic = new Media(fileURL("./assets/charge_cannon/soundtracks/Roses.mp3"));
+        backgroundMusic = new Media(fileURL("./assets/charge_cannon/soundtracks/Clouds.m4a"));
 
         // Preload all sound effects
         cannonShot = new AudioClip(fileURL("./assets/charge_cannon/sound_fx/cannon_shot.wav"));
