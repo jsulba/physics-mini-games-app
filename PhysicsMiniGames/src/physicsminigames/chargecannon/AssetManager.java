@@ -56,7 +56,7 @@ public class AssetManager {
                                                 BackgroundPosition.DEFAULT,
                                                 BackgroundSize.DEFAULT));
         
-        gameplay = new ImagePattern(new Image(fileURL("./assets/charge_cannon/backgrounds/gameplay.png")));
+        gameplay = new ImagePattern(new Image(fileURL("./assets/charge_cannon/backgrounds/user_doc.JPG")));
         
         bullets.add(new ImagePattern(new Image(fileURL("./assets/charge_cannon/sprites/neutra.png"))));
         bullets.add(new ImagePattern(new Image(fileURL("./assets/charge_cannon/sprites/posit.png"))));

@@ -1121,15 +1121,16 @@ public class FXMLMiniGame2Controller implements Initializable {
 
         ToggleGroup group = new ToggleGroup();
         radioButtonFireGun.setToggleGroup(group);
+        //
         
         radioButtonIceGun.setToggleGroup(group);
-        imageViewIceGun.setImage(AssetManager.getGunIce_Img());
+        //imageViewIceGun.setImage(AssetManager.getGunIce_Img());
         
         radioButtonAGGun.setToggleGroup(group);
-        imageViewAntiGravityGun.setImage(AssetManager.getGunAntiGravity_Img());        
+        //imageViewAntiGravityGun.setImage(AssetManager.getGunAntiGravity_Img());        
         
         radioButtonPortalGun.setToggleGroup(group);
-        imageViewPortalGun.setImage(AssetManager.getGunPortalIn_Img());
+        //imageViewPortalGun.setImage(AssetManager.getGunPortalIn_Img());
 
         buttonCloseAntiGravity.setDisable(true);
         buttonClosePortals.setDisable(true);

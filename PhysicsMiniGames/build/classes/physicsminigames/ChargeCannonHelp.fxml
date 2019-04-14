@@ -1,22 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="pane" prefHeight="680.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="physicsminigames.ChargeCannonHelpController">
+<AnchorPane id="AnchorPane" fx:id="pane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="physicsminigames.ChargeCannonHelpController">
    <children>
-      <Label fx:id="instructions" alignment="TOP_LEFT" layoutX="14.0" layoutY="14.0" prefHeight="451.0" prefWidth="481.0" wrapText="true">
-         <font>
-            <Font name="Consolas" size="14.0" />
-         </font>
-      </Label>
-      <ImageView fx:id="screenshot" fitHeight="395.0" fitWidth="489.0" layoutX="500.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="tips" alignment="TOP_LEFT" layoutX="5.0" layoutY="485.0" prefHeight="230.0" prefWidth="990.0" wrapText="true">
-         <font>
-            <Font name="Consolas" size="14.0" />
-         </font>
-      </Label>
+      <ImageView fx:id="screenshot" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0" />
    </children>
 </AnchorPane>

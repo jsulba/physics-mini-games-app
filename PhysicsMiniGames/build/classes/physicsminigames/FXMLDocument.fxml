@@ -10,7 +10,7 @@
     <children>
       <VBox fx:id="box" alignment="TOP_CENTER" layoutX="98.0" layoutY="3.0" prefHeight="493.0" prefWidth="315.0" spacing="50.0">
          <children>
-              <Label fx:id="label" alignment="CENTER" minHeight="16" minWidth="69" prefHeight="98.0" prefWidth="320.0" text="Physics Mini Games" textAlignment="CENTER">
+              <Label fx:id="label" alignment="CENTER" minHeight="16" minWidth="69" prefHeight="98.0" prefWidth="320.0" text="Physics Mini Games" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Cambria Math" size="22.0" />
                </font>
