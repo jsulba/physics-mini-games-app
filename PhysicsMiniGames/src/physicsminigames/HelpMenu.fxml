@@ -7,24 +7,24 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fx:id="sp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="physicsminigames.HelpMenuController"> 
+<ScrollPane fx:id="sp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="455.0" prefWidth="568.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="physicsminigames.HelpMenuController"> 
   <content>
-    <AnchorPane fx:id="pane" minHeight="0.0" minWidth="0.0" prefHeight="900.0" prefWidth="700.0">
+    <AnchorPane fx:id="pane" minHeight="0.0" minWidth="0.0" prefHeight="1100.0" prefWidth="704.0">
          <children>
-            <VBox fx:id="vbox" prefHeight="200.0" prefWidth="100.0">
+            <VBox fx:id="vbox" layoutY="-4.0" prefHeight="1003.0" prefWidth="516.0">
                <children>
-                  <ImageView fx:id="imageViewHelpTop" fitHeight="300.0" fitWidth="479.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imageViewHelpTop" fitHeight="391.0" fitWidth="575.0" pickOnBounds="true" preserveRatio="true">
                      <viewport>
                         <Rectangle2D />
                      </viewport>
                      <image>
                         <Image url="@mirrorsoflife/help%20menu/top.PNG" />
                      </image></ImageView>
-                  <ImageView fx:id="imageViewHelpMid" fitHeight="300.0" fitWidth="700.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imageViewHelpMid" fitHeight="351.0" fitWidth="581.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@mirrorsoflife/help%20menu/2.PNG" />
                      </image></ImageView>
-                  <ImageView fx:id="imageViewHelpBottom" fitHeight="300.0" fitWidth="700.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imageViewHelpBottom" fitHeight="351.0" fitWidth="581.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@mirrorsoflife/help%20menu/3.PNG" />
                      </image></ImageView>

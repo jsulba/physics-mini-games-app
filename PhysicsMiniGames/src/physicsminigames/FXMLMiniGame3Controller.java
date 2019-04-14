@@ -5,9 +5,6 @@
  */
 package physicsminigames;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -60,7 +57,7 @@ public class FXMLMiniGame3Controller implements Initializable {
     //slider
     @FXML
     Slider chosenFocalLength;
-    
+
     //other GUI elements
     //labels
     @FXML
@@ -76,7 +73,7 @@ public class FXMLMiniGame3Controller implements Initializable {
     //pane
     @FXML
     AnchorPane pane;
-    
+
     //Game Objects
     LightPhoton photon = null;
     LightSource source = null;
@@ -85,33 +82,33 @@ public class FXMLMiniGame3Controller implements Initializable {
     Diamond diamond = null;
     Lens lens = null;
     Mirror mirror = null;
-    
+
     //Variable to keep track of the photon's initial velocity
     private Vector2D initialPhotonVelocity = null;
-    
+
     //Arrays to keep track of different game objects
     private ArrayList<Wall> obstacles = new ArrayList<Wall>();
     private ArrayList<Mirror> mirrorsArray = new ArrayList<Mirror>();
     private ArrayList<Lens> lensArray = new ArrayList<Lens>();
     private ArrayList<Diamond> diamondArray = new ArrayList<Diamond>();
     private ArrayList<Amber> amberArray = new ArrayList<Amber>();
-    
+
     //Variables to keep track of player input
     private static int objectChosen;
     private int objectsChosenAmount = 0;
-    
+
     //Variable to keep track of game progress
     private boolean isWon = false;
     private int levelsPassed = 0;
-    
+
     //Other variables
-    private static  double pickedFocalLength = 40;
+    private static double pickedFocalLength = 40;
     private static double xCoord = 0.0;
     private static double yCoord = 0.0;
     private double lastFrameTime = 0.0;
     private double distanceTravelled = 0;
     private static MediaPlayer mediaPlayer;
-           
+
     //Methods for adding and removing to/from pane
     public void addToPane(Node node) {
         pane.getChildren().add(node);
@@ -120,10 +117,12 @@ public class FXMLMiniGame3Controller implements Initializable {
     public void removeFromPane(Node node) {
         pane.getChildren().remove(node);
     }
-    
+
     //Action events for the buttons
     public void handleStartBtn(ActionEvent event) {
-        photon.setVelocity(new Vector2D(150, 0));
+        
+        if (photon.getVelocity().getX()==0 && photon.getVelocity().getY()==0)
+        {photon.setVelocity(new Vector2D(150, 0));
         distanceTravelled = 0;
 
         for (Diamond x : diamondArray) {
@@ -137,10 +136,16 @@ public class FXMLMiniGame3Controller implements Initializable {
         for (Lens x : lensArray) {
             x.resetCalcCondition();
         }
+        
+        statusLabel.setText ("Pick an object and place it on the screen");}
+        
+        else
+        {
+            statusLabel.setText(("Wait until the photon stops moving!"));
+        }
     }
-    
-    public void handleNextLevelBtn (ActionEvent event)
-    {    
+
+    public void handleNextLevelBtn(ActionEvent event) {
         ++levelsPassed;
         objectChosen = 0;
         //remove inputs
@@ -149,11 +154,10 @@ public class FXMLMiniGame3Controller implements Initializable {
         //remove obstacles
         removeWalls();
         obstacles.clear();
-        setUpLevel (levelsPassed); 
+        setUpLevel(levelsPassed);
     }
-    
-    public void handleRestartGame (ActionEvent event)
-    {
+
+    public void handleRestartGame(ActionEvent event) {
         levelsPassed = 0;
         objectChosen = 0;
         //remove inputs
@@ -164,11 +168,9 @@ public class FXMLMiniGame3Controller implements Initializable {
         obstacles.clear();
         setUpLevel(levelsPassed);
     }
-    
-    
-    public void handleQuitBtn (ActionEvent event)
-    {
-        ((Stage)pane.getScene().getWindow()).close();
+
+    public void handleQuitBtn(ActionEvent event) {
+        ((Stage) pane.getScene().getWindow()).close();
         mediaPlayer.stop();
     }
 
@@ -177,9 +179,9 @@ public class FXMLMiniGame3Controller implements Initializable {
         photon.setVelocity(new Vector2D(0, 0));
         removeObjectsPlaced();
         resetFocalLength();
-        photon.setPosition(new Vector2D(source.getPosition().getX() + 20, source.getPosition().getY()));              
-    }   
- 
+        photon.setPosition(new Vector2D(source.getPosition().getX() + 20, source.getPosition().getY()));
+    }
+
     //Handle user picked objects
     public void handleMirror(ActionEvent event) {
         statusLabel.setText("Place the object anywhere on the screen");
@@ -200,31 +202,26 @@ public class FXMLMiniGame3Controller implements Initializable {
         statusLabel.setText("Place the object anywhere on the screen");
         objectChosen = 4;
     }
-    
+
     //Setter for the focal length
-    static public void setFocalLength (double f)
-    {
+    static public void setFocalLength(double f) {
         pickedFocalLength = f;
     }
-    
+
     //Accessor for the focal length
-    static public double getFocalLength()
-    {
+    static public double getFocalLength() {
         return pickedFocalLength;
     }
-    
+
     //Method to remove all obstacles
-    public void removeWalls()          
-    {
-        for ( Wall x : obstacles)
-        {
+    public void removeWalls() {
+        for (Wall x : obstacles) {
             removeFromPane(x.getRectangle());
         }
     }
-        
+
     //Method to reset the focal length back to its initial value
-    public void resetFocalLength()
-    {
+    public void resetFocalLength() {
         setFocalLength(40.0);
         chosenFocalLength.setValue(40.0);
         focalLength.setText("Focal Length: 40");
@@ -235,7 +232,7 @@ public class FXMLMiniGame3Controller implements Initializable {
         xCoord = e.getX();
         yCoord = e.getY();
     }
-    
+
     //Accessor for the xcomp
     static public double getXcomp() {
         return xCoord;
@@ -253,8 +250,7 @@ public class FXMLMiniGame3Controller implements Initializable {
         if (objectChosen == 0) {
             statusLabel.setText("Select an object first!");
         }
-        
-        
+
         if (objectChosen == 1 && objectsChosenAmount < 5) {
             ++objectsChosenAmount;
             mirror = new Mirror(getXcomp(), getYcomp());
@@ -277,7 +273,7 @@ public class FXMLMiniGame3Controller implements Initializable {
             statusLabel.setText("Pick an object and place it on the screen");
         }
         if (objectChosen == 4 && objectsChosenAmount < 5) {
-            ++objectsChosenAmount;       
+            ++objectsChosenAmount;
             amber = new Amber(getXcomp(), getYcomp());
             addToPane(amber.getCircle());
             amberArray.add(amber);
@@ -285,7 +281,7 @@ public class FXMLMiniGame3Controller implements Initializable {
         }
 
         if (objectsChosenAmount == 5) {
-        statusLabel.setText("Max amount of objects reached! Try resetting the objects");
+            statusLabel.setText("Max amount of objects reached! Try resetting the objects");
         }
     }
 
@@ -316,23 +312,20 @@ public class FXMLMiniGame3Controller implements Initializable {
     }
 
     //Method to set up 3 different levels
-    public void setUpLevel( int levelsPassed)
-    {
-        if ( levelsPassed == 0)
-        {
+    public void setUpLevel(int levelsPassed) {
+        if (levelsPassed == 0) {
             //if game has been won once, delete the previous source,target and photon
-            if (isWon)
-            {
-            restartGameBtn.setDisable(true);
-            removeFromPane(source.getCircle());
-            removeFromPane(target.getCircle());
-            removeFromPane(photon.getCircle());  
+            if (isWon) {
+                restartGameBtn.setDisable(true);
+                removeFromPane(source.getCircle());
+                removeFromPane(target.getCircle());
+                removeFromPane(photon.getCircle());
             }
-           
+
             source = new LightSource(10, 400);
             photon = new LightPhoton(30, 400);
             target = new LightTarget(600, 100);
-            initialPhotonVelocity = photon.getVelocity();   
+            initialPhotonVelocity = photon.getVelocity();
             for (int i = 0; i < 2; i++) {
                 obstacles.add(new Wall(500, 200 + 200 * i));
             }
@@ -341,11 +334,10 @@ public class FXMLMiniGame3Controller implements Initializable {
             });
             restartGameBtn.setDisable(true);
             nextLevelBtn.setDisable(true);
-            levelLabel.setText("Level: 1");           
+            levelLabel.setText("Level: 1");
         }
-        
-        if ( levelsPassed == 1)
-        {           
+
+        if (levelsPassed == 1) {
             restartGameBtn.setDisable(true);
             removeFromPane(source.getCircle());
             removeFromPane(target.getCircle());
@@ -353,9 +345,9 @@ public class FXMLMiniGame3Controller implements Initializable {
             source = new LightSource(10, 200);
             photon = new LightPhoton(30, 200);
             target = new LightTarget(600, 100);
-            initialPhotonVelocity = photon.getVelocity();   
+            initialPhotonVelocity = photon.getVelocity();
             for (int i = 0; i < 4; i++) {
-               obstacles.add(new Wall(300, 50 + 200 * i));
+                obstacles.add(new Wall(300, 50 + 200 * i));
             }
             obstacles.forEach((x) -> {
                 addToPane(x.getRectangle());
@@ -363,9 +355,8 @@ public class FXMLMiniGame3Controller implements Initializable {
             nextLevelBtn.setDisable(true);
             levelLabel.setText("Level: 2");
         }
-        
-        if ( levelsPassed == 2)
-        {        
+
+        if (levelsPassed == 2) {
             restartGameBtn.setDisable(true);
             removeFromPane(source.getCircle());
             removeFromPane(target.getCircle());
@@ -373,7 +364,7 @@ public class FXMLMiniGame3Controller implements Initializable {
             source = new LightSource(10, 500);
             photon = new LightPhoton(30, 500);
             target = new LightTarget(600, 400);
-            initialPhotonVelocity = photon.getVelocity();   
+            initialPhotonVelocity = photon.getVelocity();
             for (int i = 0; i < 2; i++) {
                 obstacles.add(new Wall(400, 150 + 200 * i));
             }
@@ -383,7 +374,7 @@ public class FXMLMiniGame3Controller implements Initializable {
             nextLevelBtn.setDisable(true);
             levelLabel.setText("Level: 3");
         }
-        
+
         // add photon,source,target to the pane
         addToPane(photon.getCircle());
         addToPane(source.getCircle());
@@ -393,10 +384,9 @@ public class FXMLMiniGame3Controller implements Initializable {
         mirrorBtn.setBackground((AssetManager.getObjectBackground(0)));
         lensBtn.setBackground((AssetManager.getObjectBackground(1)));
         diamondBtn.setBackground((AssetManager.getObjectBackground(2)));
-        amberBtn.setBackground((AssetManager.getObjectBackground(3)));     
+        amberBtn.setBackground((AssetManager.getObjectBackground(3)));
     }
-    
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         lastFrameTime = 0.0f;
@@ -406,28 +396,28 @@ public class FXMLMiniGame3Controller implements Initializable {
         pane.setPrefSize(700, 700);
         //pane.setPrefSize(700, 700);
 
-        helpBtn.setOnAction(new EventHandler<ActionEvent>(){
+        helpBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                try{
+                try {
                     Parent root = FXMLLoader.load(getClass().getResource("HelpMenu.fxml"));
                     Stage stage = new Stage();
                     stage.setTitle("Help Menu");
                     stage.setScene(new Scene(root));
                     stage.show();
-                }
-                catch(IOException io){
+                } catch (IOException io) {
                     io.printStackTrace();
                 }
             }
         });
-        
-        chosenFocalLength.valueProperty().addListener(new ChangeListener(){
-        @Override
-        public void changed(ObservableValue a, Object o1, Object o2) {
-            setFocalLength(chosenFocalLength.getValue());
-            focalLength.setText("Focal Length: " + String.format("%.2f", getFocalLength()));     
-        }});
+
+        chosenFocalLength.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue a, Object o1, Object o2) {
+                setFocalLength(chosenFocalLength.getValue());
+                focalLength.setText("Focal Length: " + String.format("%.2f", getFocalLength()));
+            }
+        });
 
         //load all assets
         AssetManager.preloadAllAssets();
@@ -442,7 +432,7 @@ public class FXMLMiniGame3Controller implements Initializable {
         });
         mediaPlayer.play();
         //Set up Level
-        setUpLevel (levelsPassed);
+        setUpLevel(levelsPassed);
 
         new AnimationTimer() {
             @Override
@@ -483,7 +473,7 @@ public class FXMLMiniGame3Controller implements Initializable {
                         photon.setPosition(new Vector2D(source.getPosition().getX() + 20, source.getPosition().getY()));
                         //Reset the photon's velocity
                         photon.setVelocity(initialPhotonVelocity);
-
+                       
                     }
                 }
 
@@ -493,8 +483,13 @@ public class FXMLMiniGame3Controller implements Initializable {
                             && (photon.getPosition().getX() - photon.getCircle().getRadius() <= (x.getPosition().getX() + x.getRectangle().getWidth()))
                             && (photon.getPosition().getY() + photon.getCircle().getRadius() >= x.getPosition().getY())
                             && (photon.getPosition().getY() - photon.getCircle().getRadius() <= (x.getPosition().getY() + x.getRectangle().getHeight()))) {
-                       //Change the photon's velocity
+                        //Change the photon's velocity
                         photon.setVelocity(Mirror.returnReflectedVector(photon.getVelocity()));
+                        
+                        //if it hits the same object twice, make it calc again
+                        resetDiaCal();
+                        resetAmberCal();
+                        resetLensCal();
                     }
                 }
 
@@ -506,13 +501,12 @@ public class FXMLMiniGame3Controller implements Initializable {
                             && (photon.getPosition().getY() + photon.getCircle().getRadius() >= x.getPosition().getY())
                             && (photon.getPosition().getY() - photon.getCircle().getRadius() <= (x.getPosition().getY() + x.getRectangle().getHeight()))
                             //if it hasn't been calculated yet   
-                            && x.getCalcCondition()) 
-                    {
+                            && x.getCalcCondition()) {
                         //Calculate the distance travelled by the photon once it's inside the lens
                         distanceTravelled += frameDeltaTime * photon.getVelocity().magnitude();
                         //Once its past the width, change its velocity
                         if (distanceTravelled >= x.getRectangle().getWidth()) {
-                            
+
                             //Separate the lens into 3 areas.
                             //The upperPart and the lowerPart delimitate the lens' middle
                             double upperPart = (x.getPosition().getY() + ((4.0 / 10) * (x.getRectangle().getHeight())));
@@ -520,27 +514,26 @@ public class FXMLMiniGame3Controller implements Initializable {
 
                             //If the photon isn't in the middle
                             if (((photon.getPosition().getY() < upperPart)
-                                    || ((photon.getPosition().getY() > lowerPart))))
-                            {
-                                    //if the photon isn't moving perpendicularly to the lens
-                                    if ( !(photon.getVelocity().getY() == 0))
-                            {
+                                    || ((photon.getPosition().getY() > lowerPart)))) {
+                                //if the photon isn't moving perpendicularly to the lens
+                                if (!(photon.getVelocity().getY() == 0)) {
 
-                                photon.setVelocity(x.returnReflectedVector(photon.getVelocity()));
-                                upperPart = 0;
-                                lowerPart = 0;
-                                //distanceTravelled = 0;
+                                    photon.setVelocity(x.returnReflectedVector(photon.getVelocity()));
+                                    upperPart = 0;
+                                    lowerPart = 0;
+                                    x.switchCalcAgain();
+                                } else if (photon.getVelocity().getY() == 0) {
+                                    double lensHeight = x.getRectangle().getHeight();
+                                    Vector2D lensPosition = x.getPosition();
+                                    photon.setVelocity(x.returnReflectedVector(photon.getVelocity(), x.getPosition(), photon.getPosition(), getFocalLength(), x.getRectangle().getHeight()));
+                                    x.switchCalcAgain();
+                                }
+                             
                             }
-                                    else if (photon.getVelocity().getY() == 0)
-                            {
-                                double lensHeight = x.getRectangle().getHeight();
-                                Vector2D lensPosition = x.getPosition();
-                                System.out.println("The photon needs to go thru focal point!");
-                                photon.setVelocity(x.returnReflectedVector(photon.getVelocity(), x.getPosition(),photon.getPosition(),getFocalLength(), x.getRectangle().getHeight()));                               
-                            }}
-                            x.switchCalcAgain();
+                            resetDiaCal();
+                            resetAmberCal();
                             distanceTravelled = 0;
-                        }     
+                        }
                     }
                 }
 
@@ -551,7 +544,7 @@ public class FXMLMiniGame3Controller implements Initializable {
                             && Math.abs(photon.getPosition().getY() - x.getPosition().getY()) < photon.getCircle().getRadius() + x.getCircle().getRadius()
                             //if the calculation hasn't been done yet
                             && x.getCalcCondition()) {
-                        
+
                         //calculate the distance travelled
                         distanceTravelled += frameDeltaTime * photon.getVelocity().magnitude();
                         //once its past the diamond, change its velocity
@@ -560,6 +553,8 @@ public class FXMLMiniGame3Controller implements Initializable {
                             x.switchCalcAgain();
                             distanceTravelled = 0;
                         }
+                        resetAmberCal();
+                        resetLensCal();
                     }
                 }
 
@@ -578,31 +573,30 @@ public class FXMLMiniGame3Controller implements Initializable {
                             x.switchCalcAgain();
                             distanceTravelled = 0;
                         }
+                        resetDiaCal();
+                        resetLensCal();
                     }
                 }
-                
-                  //detect target collision
-                  if (Math.abs(photon.getPosition().getX() - target.getPosition().getX()) < photon.getCircle().getRadius() + target.getCircle().getRadius()
-                            //if the distance between the two middles is less than the radius
-                           && Math.abs(photon.getPosition().getY() - target.getPosition().getY()) < photon.getCircle().getRadius() + target.getCircle().getRadius())
-                  {
-                      //if the photon hits the target and 2 levels have been passed
-                      //the game is finished
-                      if (levelsPassed ==2)
-                      {
+
+                //detect target collision
+                if (Math.abs(photon.getPosition().getX() - target.getPosition().getX()) < photon.getCircle().getRadius() + target.getCircle().getRadius()
+                        //if the distance between the two middles is less than the radius
+                        && Math.abs(photon.getPosition().getY() - target.getPosition().getY()) < photon.getCircle().getRadius() + target.getCircle().getRadius()) {
+                    //if the photon hits the target and 2 levels have been passed
+                    //the game is finished
+                    if (levelsPassed == 2) {
                         statusLabel.setText("Congrats! You saved Earth!");
                         photon.setVelocity(new Vector2D(0, 0));
                         photon.setPosition(new Vector2D(source.getPosition().getX() + 20, source.getPosition().getY()));
                         //give the user the option to restart the game
                         restartGameBtn.setDisable(false);
                         isWon = true;
-                      }
-                      
-                      else{
+                    } else {
                         photon.setVelocity(new Vector2D(0, 0));
                         photon.setPosition(new Vector2D(source.getPosition().getX() + 20, source.getPosition().getY()));
-                        nextLevelBtn.setDisable(false);  }                  
-                  }
+                        nextLevelBtn.setDisable(false);
+                    }
+                }
 
                 photon.update(frameDeltaTime);
 
@@ -610,7 +604,34 @@ public class FXMLMiniGame3Controller implements Initializable {
         }.start();
     }
     
-    public static MediaPlayer getMediaPlayer(){
+    
+    public void resetAmberCal()
+    {
+        for (Amber x:amberArray)
+        {
+            x.resetCalcCondition();
+        }
+    }
+    
+    public void resetDiaCal()
+    {
+        for (Diamond x:diamondArray)
+        {
+            x.resetCalcCondition();
+        }}
+   
+    public void resetLensCal()
+    {
+        for (Lens x:lensArray)
+        {
+            x.resetCalcCondition();
+        }
+    }
+    
+    
+    
+
+    public static MediaPlayer getMediaPlayer() {
         return mediaPlayer;
     }
 }

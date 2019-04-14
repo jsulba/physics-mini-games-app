@@ -1,4 +1,3 @@
-
 package physicsminigames.mirrorsoflife;
 
 public class Mirror extends GameObject{
