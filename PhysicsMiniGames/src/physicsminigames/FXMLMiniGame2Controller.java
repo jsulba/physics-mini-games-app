@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//Authors: George Emmanouelides & Maksym Donchenko
 package physicsminigames;
 
 import java.awt.Point;
@@ -23,7 +19,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -35,14 +30,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import physicsminigames.projectileshooter.*;
 
-/**
- *
- * @author cstuser
- */
+
 public class FXMLMiniGame2Controller implements Initializable {
 
     private double lastFrameTime = 0.0;
 
+    //Elements in SceneBuilder
     @FXML
     private AnchorPane pane;
 
@@ -169,7 +162,9 @@ public class FXMLMiniGame2Controller implements Initializable {
     //class variable projectile
     private Projectile projectile;
 
+    //deathAnimDelayTime is used to count how much time has passed since the projectile has hit an enemy (The animation time)
     public double deathAnimDelayTime = 0;
+    //Enemy_hit it a boolean that track whether or not a specific enemy has been hit
     public boolean enemy_Hit = false;
 
     //Final variables
@@ -192,19 +187,20 @@ public class FXMLMiniGame2Controller implements Initializable {
     private final double FIRE_WIDTH = 60; // the width of a fire barrier
     private final double FIRE_HEIGHT = 150; // the height of a fire barrier
 
-    private final double ENEMY_WIDTH = 95;
-    private final double ENEMY_HEIGHT = 91;
-    private final double ENEMY_DISPLACEMENT = 50;
-    private final double ENEMY_VELOCITY = 20;
-    private final double ENEMY_ANIMATION_DURATION = 1.2;    
-
-    private final double WALL_THICKNESS = 20;
+    //The dimensions and values to be used when creating enemies and their beahviors
+    private final double ENEMY_WIDTH = 95;//Width of an enemy
+    private final double ENEMY_HEIGHT = 91;//Height of an enemy
+    private final double ENEMY_DISPLACEMENT = 50;//The distance an enemy can travel from it's origin
+    private final double ENEMY_VELOCITY = 20;//The speed with which enemies move
+    private final double ENEMY_ANIMATION_DURATION = 1.2; //The amount of time an enemy will burn for
+    
+    private final double WALL_THICKNESS = 20;//The thickness of a wall
 
     //---Correction values---
-    //Portal rotations
-    private final double ROTATION_PORTAL_ROOF = 270;
-    private final double ROTATION_PORTAL_LEFT = 180;
-    private final double ROTATION_PORTAL_FLOOR = 90;
+    //Portal rotations in degrees depending on the side of the game they're on
+    private final double ROTATION_PORTAL_ROOF = 270;//for Roof
+    private final double ROTATION_PORTAL_LEFT = 180;//for Left Wall
+    private final double ROTATION_PORTAL_FLOOR = 90;//for Floor
 
     //portal displacements to put them in the desired location
     private final double CORRECTION_PORTAL = -40;
@@ -235,34 +231,6 @@ public class FXMLMiniGame2Controller implements Initializable {
         pane.getChildren().remove(node);
     }
     
-    
-    
-    /*
-    @FXML
-    public void buttonHelpClicked(MouseEvent event){
-        
-        
-        
-        scrollPaneHelp.setVisible(true);
-        scrollPaneHelp.setDisable(false);
-        buttonCloseHelp.setVisible(true);
-        buttonCloseHelp.setDisable(false);
-    }
-    
-    @FXML
-    public void buttonCloseHelpClicked(MouseEvent event){
-        
-        
-        
-        scrollPaneHelp.setVisible(false);
-        scrollPaneHelp.setDisable(true);
-        buttonCloseHelp.setVisible(false);
-        buttonCloseHelp.setDisable(true);
-    }
-    */
-    
-   
-    
     //This method will point the gun at the mouse when it is moved
     @FXML
     public void mouseMoved(MouseEvent event) {
@@ -271,34 +239,32 @@ public class FXMLMiniGame2Controller implements Initializable {
 
         mouseAim = new Point((int) mouseX, (int) mouseY);
         gunRotationAngle(mouseAim, gunPivot);
-
-        //coordinates.setText("MouseX: " + mouseX + "MouseY: " + mouseY);
     }
     
+    //This method is decides what will happen when the help button is clicked
     @FXML
     public void buttonHelp(MouseEvent event)
     {
         try{
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("HelpWindow.fxml"));
-        Parent root1 = (Parent) fxmlLoader.load();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root1));
-        stage.show();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("HelpWindow.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
         }
-        catch(Exception e)
-        {
+        catch(Exception e){
             System.out.println("Cant load new window");
         }
 
     }
 
-    //This method handles shooting and the creating of projectiles
+    //This method handles shooting and the creation of projectiles
     @FXML
     public void mouseClicked(MouseEvent event) {
 
         acceleration = new Vector(0, GRAVITY);
 
-        //Checks if the projectile is within the bounds of an antigravity region and inverts the gravity if it is. ---------------PROBABLY REMOVE---------------------
+        //Checks if the projectile is within the bounds of an antigravity region and inverts the gravity if it is
         if (isWithinAntiGravity) {
             acceleration = new Vector(0, -GRAVITY);
         }
@@ -308,16 +274,19 @@ public class FXMLMiniGame2Controller implements Initializable {
         mouseY = (pane.getHeight() - event.getSceneY());
 
         //---------Changes the type of projectile depending on the gun--------
+        //If it's a Fire Gun
         if (radioButtonFireGun.isSelected()) {
             projectile = new Projectile(new Vector(SHOULDER_X, SHOULDER_Y), new Vector(Math.cos(theta) * PROJECTILE_VELOCITY, -Math.sin(theta) * PROJECTILE_VELOCITY), acceleration, PROJECTILE_RADIUS, "fire");
             tempShot = AssetManager.getShotFire();
         }
 
+        //If it's an Ice Gun
         if (radioButtonIceGun.isSelected()) {
             projectile = new Projectile(new Vector(SHOULDER_X, SHOULDER_Y), new Vector(Math.cos(theta) * PROJECTILE_VELOCITY, -Math.sin(theta) * PROJECTILE_VELOCITY), acceleration, PROJECTILE_RADIUS, "ice");
             tempShot = AssetManager.getShotIce();
         }
 
+        //If it's na Anti-Gravity Gun
         if (radioButtonAGGun.isSelected()) {
             tempShot = AssetManager.getShotAntiGravity();
             if (antiGravityIsActive == true) {
@@ -329,6 +298,7 @@ public class FXMLMiniGame2Controller implements Initializable {
 
         }
 
+        //If it's a Portal Gun
         if (radioButtonPortalGun.isSelected()) {
             tempShot = AssetManager.getShotPortal();
             if (portalInIsActive && portalOutIsActive) {
@@ -351,25 +321,28 @@ public class FXMLMiniGame2Controller implements Initializable {
         }
     }
 
+    //This method is called when the "Level 1" button is clicked. It loades all the game elements of Level 1 and Hides the screen that congratulates the user
     @FXML
     public void nextLevelButton1Clicked(MouseEvent event){
         loadLevelOne();
         hideCongratsScreen();
     }
     
+    //This method is the same as the previous except it loads Level 2
     @FXML
     public void nextLevelButton2Clicked(MouseEvent event){
         loadLevelTwo();
         hideCongratsScreen();
     }
     
+    //This method is the same as the previous except it loads Level 3
     @FXML
     public void nextLevelButton3Clicked(MouseEvent event){
         loadLevelThree();
         hideCongratsScreen();
     }
     
-    //Calculates 
+    //Calculates the angle at which to rotate the gun
     public void gunRotationAngle(Point mouseAim, Point gunPivot) {
         theta = Math.atan2(mouseAim.y - gunPivot.y, mouseAim.x - gunPivot.x);
 
@@ -379,12 +352,15 @@ public class FXMLMiniGame2Controller implements Initializable {
 
     //----------PORTAL AND ANTIGRAVITY BEHAVIOR METHODS------------
     //PORTALS
+    
+    //This method opens portals and makes their position be based on where the projectile hits the edge of the game
     public void openPortal() {
         AudioClip tempActivatePortal = AssetManager.getActivatePortal();
         tempActivatePortal.play();
         if (portalInIsActive == false) {
             portalIn = new Portal(new Vector(projectile.getPosition().getX(), projectile.getPosition().getY() + CORRECTION_PORTAL), PORTAL_WIDTH, PORTAL_HEIGHT);
             boundPortalIn = portalIn.getBounds();
+            
             objectList.add(portalIn);
             addToPane(portalIn.getRectangle());
             portalIn.getRectangle().setFill(AssetManager.getPortalIn());
@@ -393,18 +369,6 @@ public class FXMLMiniGame2Controller implements Initializable {
             buttonClosePortals.setDisable(false);
             portalOut = new Portal(new Vector(projectile.getPosition().getX(), projectile.getPosition().getY() + CORRECTION_PORTAL), PORTAL_WIDTH, PORTAL_HEIGHT);
             boundPortalOut = portalOut.getBounds();
-            /*
-            if(boundPortalOut.intersects(boundPortalIn))
-            {
-                if(portalInIsFloor)
-                {
-                    if(portalIn.getRectangle().getX() + PORTAL_HEIGHT >= edgeRightWall.getRectangle().getX())
-                    {
-                        
-                    }
-                }
-            } 
-             */
 
             objectList.add(portalOut);
             addToPane(portalOut.getRectangle());
@@ -416,39 +380,41 @@ public class FXMLMiniGame2Controller implements Initializable {
     //Method that closes portals and should only be called when two portals are active
     public void closePortal() {
         if(portalInIsActive && portalOutIsActive){
-        AudioClip tempRemoveProjectile = AssetManager.getRemoveProjectile();
-        tempRemoveProjectile.play();
-        buttonClosePortals.setDisable(true);
-        portalInIsActive = false;
-        portalIn.getRectangle().setFill(Color.TRANSPARENT);
-        objectList.remove(portalIn);
-        removeFromPane(portalIn.getRectangle());
+            AudioClip tempRemoveProjectile = AssetManager.getRemoveProjectile();
+            tempRemoveProjectile.play();
+            buttonClosePortals.setDisable(true);
+            portalInIsActive = false;
+            portalIn.getRectangle().setFill(Color.TRANSPARENT);
+            objectList.remove(portalIn);
+            removeFromPane(portalIn.getRectangle());
 
-        portalOutIsActive = false;
-        portalOut.getRectangle().setFill(Color.TRANSPARENT);
-        objectList.remove(portalOut);
-        removeFromPane(portalOut.getRectangle());
+            portalOutIsActive = false;
+            portalOut.getRectangle().setFill(Color.TRANSPARENT);
+            objectList.remove(portalOut);
+            removeFromPane(portalOut.getRectangle());
 
-        //Resetting booleans for which side the portals are on        
-        portalInIsFloor = false;
-        portalOutIsFloor = false;
+            //Resetting booleans for which side the portals are on        
+            portalInIsFloor = false;
+            portalOutIsFloor = false;
 
-        portalInIsRoof = false;
-        portalOutIsRoof = false;
+            portalInIsRoof = false;
+            portalOutIsRoof = false;
 
-        portalInIsLeftWall = false;
-        portalOutIsLeftWall = false;
+            portalInIsLeftWall = false;
+            portalOutIsLeftWall = false;
 
-        portalInIsRightWall = false;
-        portalOutIsRightWall = false;
+            portalInIsRightWall = false;
+            portalOutIsRightWall = false;
         }
     }
 
-    //Method that teleports projectile from portalIn to portalOut
+    //Method that teleports projectile from portalIn to portalOut 
+    //The ladder of "if" statements is what allows the projectile to teleport from one portal to another properly
     public void teleportInToOut(Projectile proj) {
         AudioClip tempTeleport = AssetManager.getTeleport();
         tempTeleport.play();
         proj.setPosition(new Vector(portalOut.getPosition().getX(), portalOut.getPosition().getY()));
+        
         //-----portalIn is on the Roof-----
 
         //portalOut = roof (portalIn is roof)
@@ -550,6 +516,9 @@ public class FXMLMiniGame2Controller implements Initializable {
     }
     
     //ANTIGRAVITY
+    
+    //This method spawns two vertical bars that designate the border of the negative-gravity region. 
+    //The region is centered on where the projectile collides with the top or bottom of the game
     public void openAntiGravity() {
         //Creating and playing the audio clip for activating antigravity
         AudioClip tempAntiGravityActivation = AssetManager.getActivateAntiGravity();
@@ -568,6 +537,7 @@ public class FXMLMiniGame2Controller implements Initializable {
         addToPane(agRightSide.getRectangle());
     }
 
+    //This method removes all antigravity objects from the game
     public void closeAntiGravity() {
         if(antiGravityIsActive){
         buttonCloseAntiGravity.setDisable(true);
@@ -614,7 +584,7 @@ public class FXMLMiniGame2Controller implements Initializable {
         
     }
 
-    //Method that detects collisions between barriers and projectiles
+    //Method that describes what barriers can be destroyed by what kinds of projectiles and the consequences of those collisions.
     public void barrierCollision(Barrier bar, Projectile proj) {
         Bounds barrierBound = bar.getBounds();
 
@@ -647,15 +617,14 @@ public class FXMLMiniGame2Controller implements Initializable {
                     bar.setType("iceHit");
                 }
             }
-            removeFromPane(proj.getCircle());
-            objectList.remove(proj);
-            arrListProjectiles.remove(proj);
+                removeFromPane(proj.getCircle());
+                objectList.remove(proj);
+                arrListProjectiles.remove(proj);
         }
 
     }
 
-    //Method that creates and places enemies within the pane
-    //Method that creates and places enemies within the pane
+    //Method that creates and places enemies within the pane and controls them being upright or upsidedown using a String (upOrDown)
     public void placeEnemy(Vector pos, String upOrDown) {
         rand = new Random();
 
@@ -671,7 +640,6 @@ public class FXMLMiniGame2Controller implements Initializable {
             tempEnemy.getRectangle().setRotate(180);
         }
         
-
         addToPane(tempEnemy.getRectangle());
         arrListEnemies.add(tempEnemy);
         objectList.add(tempEnemy);
@@ -679,7 +647,7 @@ public class FXMLMiniGame2Controller implements Initializable {
         tempEnemy.setInitialPosition(pos);
     }
     
-    //Method that creates and places enemies within the pane
+    //Method that creates and places enemies within the pane but either rotated 90 degree clockwise or counterclockwise
     public void placeEnemyVertical(Vector pos, String leftOrRight) {
         rand = new Random();
 
@@ -703,24 +671,12 @@ public class FXMLMiniGame2Controller implements Initializable {
 
         tempEnemy.setInitialPosition(pos);
     }
-    
-    /*
-    public void burnEnemy(Enemy enemy){
-        enemy.getRectangle().setFill(AssetManager.getEnemyBurning());
-    }
-    */
 
+    //Method that describes behavior of enemies when they are hit by a projectile
     public void enemyCollision(Enemy e, Projectile proj) {
-        //case when a fireball hits an enemy
+        //when a fireball hits an enemy
         if (proj.getType().equalsIgnoreCase("fire")) {
             enemy_Hit = true;
-            
-            /*
-                removeFromPane(proj.getCircle());
-                objectList.remove(proj);
-                arrListProjectiles.remove(proj);            
-            */  
-            
             AudioClip tempBurning = AssetManager.getHitFire();
             tempBurning.play();
             
@@ -750,6 +706,7 @@ public class FXMLMiniGame2Controller implements Initializable {
         }
     }
 
+    //Method that is used to place walls in the game environment
     public void placeWall(Vector pos, double width, double height) {
 
         Wall wall = new Wall(pos, width, height);
@@ -758,36 +715,41 @@ public class FXMLMiniGame2Controller implements Initializable {
         arrListWalls.add(wall);
     }
 
+    //The following are methods that essentailly "bounce" a projectile off walls
     public void wallCollisionTop(Wall w, Projectile proj) {
         proj.setPosition(new Vector(proj.getPosition().getX(), proj.getPosition().getY() - PROJECTILE_RADIUS));
         proj.setVelocity(new Vector(proj.getVelocity().getX(), -proj.getVelocity().getY()));
         ++counterBounces;
     }
 
+    //^^
     public void wallCollisionBottom(Wall w, Projectile proj) {
         proj.setPosition(new Vector(proj.getPosition().getX(), proj.getPosition().getY() + PROJECTILE_RADIUS));
         proj.setVelocity(new Vector(proj.getVelocity().getX(), -proj.getVelocity().getY()));
         ++counterBounces;
     }
 
+    //^^
     public void wallCollisionLeft(Wall w, Projectile proj) {
         proj.setPosition(new Vector(proj.getPosition().getX() - PROJECTILE_RADIUS, proj.getPosition().getY()));
         proj.setVelocity(new Vector(-proj.getVelocity().getX(), proj.getVelocity().getY()));
         ++counterBounces;
     }
 
+    //^^
     public void wallCollisionRight(Wall w, Projectile proj) {
         proj.setPosition(new Vector(proj.getPosition().getX() + PROJECTILE_RADIUS, proj.getPosition().getY()));
         proj.setVelocity(new Vector(-proj.getVelocity().getX(), proj.getVelocity().getY()));
         ++counterBounces;
     }
 
+    //This method creates level 1 by placing enemies, barriers and walls
     public void loadLevelOne() {
         
         buttonCloseAntiGravity.setDisable(true);
         buttonClosePortals.setDisable(true);
         //-----------ENVIRONMENT------------
-        //The order of the walls is approximately how they appear in the pane from left to right        
+        //Lettering is to know which method calls refer to which game elements on the hand-written plans
         //"A"
         placeWall(new Vector(0, 300), ENEMY_DISPLACEMENT * 5, WALL_THICKNESS);
 
@@ -833,10 +795,12 @@ public class FXMLMiniGame2Controller implements Initializable {
         placeEnemy(new Vector(1300, 750), "");
     }
 
+    //This method creates level 2 by placing enemies, barriers and walls
     public void loadLevelTwo() {
         
         buttonCloseAntiGravity.setDisable(true);
         buttonClosePortals.setDisable(true);
+        //Lettering is to know which method calls refer to which game elements on the hand-written plans
         //Wall placement
         //"A"
         placeWall(new Vector(280, 0), WALL_THICKNESS, ENEMY_DISPLACEMENT * 3);
@@ -904,11 +868,12 @@ public class FXMLMiniGame2Controller implements Initializable {
         placeFireBarrier(new Vector(1110, 350 + WALL_THICKNESS));        
     }
 
+    //This method creates level 3 by placing enemies, barriers and walls
     public void loadLevelThree() {
         
         buttonCloseAntiGravity.setDisable(true);
         buttonClosePortals.setDisable(true);
-        
+        //Lettering is to know which method calls refer to which game elements on the hand-written plans        
         //------------WALLS------------
         //"A"
         placeWall(new Vector(270, FIRE_HEIGHT), ENEMY_DISPLACEMENT * 5, WALL_THICKNESS );
@@ -982,6 +947,7 @@ public class FXMLMiniGame2Controller implements Initializable {
         placeIceBarrier(new Vector(550 + ENEMY_DISPLACEMENT * 7, 700));
     }
 
+    //This method shows the user options to play a different level or the same one as well as show them a congratulations message
     public void displayCongratsScreen(){
         
         //Hiding the gun selection buttons
@@ -1002,9 +968,6 @@ public class FXMLMiniGame2Controller implements Initializable {
         radioButtonFireGun.setDisable(true);
         radioButtonFireGun.setVisible(false);
         labelFireGun.setVisible(false);
-                
-        
-        
         
         //Hiding the Close-Antigravity and Close-Portals buttons
         buttonCloseAntiGravity.setVisible(false);
@@ -1025,7 +988,8 @@ public class FXMLMiniGame2Controller implements Initializable {
         nextLevelButton3.setDisable(false);
     }
     
-     public void hideCongratsScreen(){
+    //This method hides the congratulations message and the buttons for level selection 
+    public void hideCongratsScreen(){
          
         //Displaying the gun selection buttons
         radioButtonAGGun.setDisable(false);
@@ -1065,7 +1029,8 @@ public class FXMLMiniGame2Controller implements Initializable {
         nextLevelButton3.setDisable(true);
     }
     
-    public void clearLevel(/*ArrayList<GameObject> gameObjects, ArrayList<Enemy> enemies, ArrayList<Projectile> projectiles, ArrayList<Wall> walls, ArrayList<Barrier> barriers*/) // also include our other arraylists in the parameters so that when we call it, we can pass them all as paramters
+    //This method deletes all game objects (except for the player and the gun)
+    public void clearLevel()
     {
         closeAntiGravity();
         closePortal();
@@ -1078,13 +1043,13 @@ public class FXMLMiniGame2Controller implements Initializable {
             }
         }
         
-        //Loop for enemies
+        //Clearing all arrayLists of game elements
         for (int i = 0; i < arrListEnemies.size(); i++) {
             if(arrListEnemies.get(i) != null){
                 removeFromPane(arrListEnemies.get(i).getRectangle());
                 arrListEnemies.remove(i);
             }
-        }
+        }        
         
         for (int i = 0; i < arrListProjectiles.size(); i++) {
             if(arrListProjectiles.get(i) != null)
@@ -1107,6 +1072,7 @@ public class FXMLMiniGame2Controller implements Initializable {
         }
     }
 
+    //Initialize method that is called immediately
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         lastFrameTime = 0.0f;
@@ -1121,7 +1087,6 @@ public class FXMLMiniGame2Controller implements Initializable {
 
         ToggleGroup group = new ToggleGroup();
         radioButtonFireGun.setToggleGroup(group);
-        //
         
         radioButtonIceGun.setToggleGroup(group);
         //imageViewIceGun.setImage(AssetManager.getGunIce_Img());
@@ -1141,24 +1106,11 @@ public class FXMLMiniGame2Controller implements Initializable {
                 ((Stage)pane.getScene().getWindow()).close();
             }
         });
-       
         
-        /*
-        //Hiding the button in the help menu
-        buttonCloseHelp.setVisible(false);
-        buttonCloseHelp.setDisable(true);        
-        buttonHelp.setVisible(true);
-        scrollPaneHelp.setVisible(false);        
-        buttonReturnToMainMenu.setVisible(true);
-        
-        */
-
-        //buttonRemoveProjectiles.setDisable(true);
         //Image of MainCharacter
         character.setImage(AssetManager.getCharacterImage());
 
         //Image Gun
-        //if(selectedGunType == "fire")
         gunImage.setImage(AssetManager.getGunFire_Img());
         radioButtonFireGun.setSelected(true);
         gunPivot = new Point();
@@ -1182,12 +1134,14 @@ public class FXMLMiniGame2Controller implements Initializable {
         objectList.add(edgeLeftWall);
         objectList.add(edgeRightWall);
 
+        //Loading level 1
         loadLevelOne();
 
         new AnimationTimer() {
             @Override
             public void handle(long now) {
                 try {
+                    //These values are what update the objects over time
                     double currentTime = (now - initialTime) / 1000000000.0;
                     double frameDeltaTime = currentTime - lastFrameTime;
                     lastFrameTime = currentTime;
@@ -1215,30 +1169,7 @@ public class FXMLMiniGame2Controller implements Initializable {
                             }
                         }                            
                     }
-                    
-                    
-                /*          
-                while(enemy_Hit){
-                    deathAnimDelayTime +=frameDeltaTime;
-                    
-                    if(deathAnimDelayTime >= 1.4){
-                        
-                        for (int i = 0; i < arrListEnemies.size(); i++) {
-                            if(arrListEnemies.get(i).getIsBurning() == true)
-                            {
-                                removeFromPane(arrListEnemies.get(i).getRectangle());
-                                arrListEnemies.remove(i);
-                                objectList.remove(i);                                   
-                            }
-                        }
-                        enemy_Hit = false;
-                    }
-                }
-                */
-              
-
-                } catch (Exception e) {
-                }
+                } catch (Exception e) {}
 
                 if (group.getSelectedToggle() == radioButtonFireGun) {
                     gunImage.setImage(AssetManager.getGunFire_Img());
@@ -1258,9 +1189,7 @@ public class FXMLMiniGame2Controller implements Initializable {
 
                 for (int i = 0; i < arrListProjectiles.size(); i++) {                    
                     AudioClip tempBounce = AssetManager.getBounce();
-                    Projectile tempProjectile = arrListProjectiles.get(i);
-
-                    //coordinates.setText("Projectile X: " + projectile.getCircle().getCenterX() + "Projectile Y: " + projectile.getCircle().getCenterY());
+                    Projectile tempProjectile = arrListProjectiles.get(i);                    
 
                     Circle projectileCircle = tempProjectile.getCircle();
                     Bounds boundProjectileCircle = projectileCircle.getBoundsInParent();
@@ -1363,7 +1292,6 @@ public class FXMLMiniGame2Controller implements Initializable {
                             objectList.remove(tempProjectile);
                             removeFromPane(tempProjectile.getCircle());
                             arrListProjectiles.remove(0);
-                            //------TODO-------
                         }
 
                         //Check for portalIn (roof)
@@ -1510,11 +1438,11 @@ public class FXMLMiniGame2Controller implements Initializable {
                             wallCollisionTop(arrListWalls.get(j), tempProjectile);                          //
                         }                                                                                   //
                         if (arrListWalls.get(j).getLeftBound().intersects(boundProjectileCircle)) {         //
-                            wallCollisionLeft(arrListWalls.get(j), tempProjectile);                     //
-                        }                                                                               //
-                        if (arrListWalls.get(j).getRightBound().intersects(boundProjectileCircle)) {      //
-                            wallCollisionRight(arrListWalls.get(j), tempProjectile);                    //
-                        }                                                                               //
+                            wallCollisionLeft(arrListWalls.get(j), tempProjectile);                         //
+                        }                                                                                   //
+                        if (arrListWalls.get(j).getRightBound().intersects(boundProjectileCircle)) {        //
+                            wallCollisionRight(arrListWalls.get(j), tempProjectile);                        //
+                        }                                                                                   //
                     }                                                                                       //
                     //--------------------------------------------------------------------------------------//
 
@@ -1527,7 +1455,7 @@ public class FXMLMiniGame2Controller implements Initializable {
                     //-----------------------ENEMY COLLISIONS-----------------------//
                     for (int x = 0; x < arrListEnemies.size(); x++) {               //
                         Bounds tempBound = arrListEnemies.get(x).getBounds();       //               
-                        if (boundProjectileCircle.intersects(tempBound)) //
+                        if (boundProjectileCircle.intersects(tempBound))            //
                         {                                                           //
                             enemyCollision(arrListEnemies.get(x), tempProjectile);  //
                         }                                                           //
@@ -1568,13 +1496,12 @@ public class FXMLMiniGame2Controller implements Initializable {
 
                 }//for (int i = 0; i < arrayListProjectiles.size(); i++)
                 
-                if(arrListEnemies.isEmpty())
-                {
+                if(arrListEnemies.isEmpty()){
                     clearLevel();
                     displayCongratsScreen();
                 }
 
-                //This makes the enemies move back and forth
+                //This makes the enemies move back and forth as well as up and down
                 for (int j = 0; j < arrListEnemies.size(); j++) {
                     if (arrListEnemies.get(j).getRectangle().getX() < arrListEnemies.get(j).getInitialPosition().getX() - ENEMY_DISPLACEMENT) {
                         arrListEnemies.get(j).setVelocity(new Vector(ENEMY_VELOCITY, 0));
@@ -1590,14 +1517,9 @@ public class FXMLMiniGame2Controller implements Initializable {
 
                     if (arrListEnemies.get(j).getRectangle().getY() > arrListEnemies.get(j).getInitialPosition().getY() + ENEMY_DISPLACEMENT) {
                         arrListEnemies.get(j).setVelocity(new Vector(0, -ENEMY_VELOCITY));
-                    }
-                    
+                    }                    
                 }
-
-            }//public void handle(long now)
-
+            }
         }.start();
-
     }
-
 }
